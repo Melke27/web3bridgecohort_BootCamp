@@ -43,14 +43,16 @@ impl Bills {
 
 fn get_input() -> Option<String> {
     let mut buffer = String::new();
-    while io::stdin().read_line(&mut buffer).is_err() {
-        println!("Please try again");
-    }
-    let input = buffer.trim().to_owned();
-    if &input == "" {
-        None
-    } else {
-        Some(input)
+    match io::stdin().read_line(&mut buffer) {
+        Ok(_) => {
+            let input = buffer.trim().to_owned();
+            if input.is_empty() {
+                None
+            } else {
+                Some(input)
+            }
+        }
+        Err(_) => None,
     }
 }
 
