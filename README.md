@@ -159,8 +159,8 @@ This project is part of the Web3Bridge bootcamp curriculum.
 
 Melkamu - Web3Bridge Cohort Participant
 
-## 🔗 Links
-
+## 🔗 Links  
+frontend deployed: https://web3bridgecohort-boot-camp-ksc5.vercel.app/
 - GitHub Repository: https://github.com/Melke27/web3bridgecohort_BootCamp
 - Rust Documentation: https://doc.rust-lang.org/
 - Cargo Guide: https://doc.rust-lang.org/cargo/
