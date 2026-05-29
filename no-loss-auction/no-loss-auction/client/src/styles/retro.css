@@ -1,0 +1,393 @@
+/* ============================================================================
+   Retro-Futuristic "System Failure" Aesthetic
+   ============================================================================ */
+
+:root {
+  /* Colors */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-cyan: #00ffff;
+  --color-magenta: #ff00ff;
+  --color-dark-gray: #1a1a1a;
+  --color-error-red: #ff0000;
+  --color-grid: rgba(0, 255, 255, 0.1);
+  
+  /* Fonts */
+  --font-mono: 'Courier New', monospace;
+  --font-sans: 'Arial', sans-serif;
+  
+  /* Effects */
+  --scanline-height: 2px;
+  --scanline-opacity: 0.15;
+  --glitch-offset: 2px;
+}
+
+/* ============================================================================
+   Background & Scanlines
+   ============================================================================ */
+
+body {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 255, var(--scanline-opacity)),
+    rgba(0, 255, 255, var(--scanline-opacity)) var(--scanline-height),
+    transparent var(--scanline-height),
+    transparent calc(var(--scanline-height) * 2)
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================================================
+   Typography & Text Effects
+   ============================================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+}
+
+/* Chromatic Aberration Effect */
+.chromatic-text {
+  position: relative;
+  display: inline-block;
+}
+
+.chromatic-text::before,
+.chromatic-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.chromatic-text::before {
+  color: var(--color-cyan);
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+  transform: translateX(-var(--glitch-offset));
+}
+
+.chromatic-text::after {
+  color: var(--color-magenta);
+  clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+  transform: translateX(var(--glitch-offset));
+}
+
+/* Error Code Text */
+.error-code {
+  font-family: var(--font-mono);
+  color: var(--color-error-red);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px var(--color-error-red);
+}
+
+/* ============================================================================
+   Containers & Panels
+   ============================================================================ */
+
+.retro-panel {
+  background-color: var(--color-dark-gray);
+  border: 2px solid var(--color-cyan);
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.3),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.retro-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-cyan),
+    transparent
+  );
+  animation: scanline-move 2s linear infinite;
+}
+
+@keyframes scanline-move {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* Geometric Brackets */
+.bracket {
+  font-family: var(--font-mono);
+  color: var(--color-cyan);
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: bold;
+}
+
+.bracket-left::before {
+  content: '[';
+}
+
+.bracket-right::after {
+  content: ']';
+}
+
+/* ============================================================================
+   Buttons & Interactive Elements
+   ============================================================================ */
+
+.retro-button {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: 2px solid var(--color-cyan);
+  padding: 12px 24px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.retro-button:hover {
+  background-color: var(--color-cyan);
+  color: var(--color-black);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.retro-button:active {
+  transform: translateY(0);
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
+
+.retro-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.retro-button.danger {
+  border-color: var(--color-error-red);
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+}
+
+.retro-button.danger:hover {
+  background-color: var(--color-error-red);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+}
+
+/* ============================================================================
+   Input Fields
+   ============================================================================ */
+
+.retro-input {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border: 2px solid var(--color-cyan);
+  padding: 10px 15px;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.retro-input:focus {
+  outline: none;
+  box-shadow: 
+    inset 0 0 10px rgba(0, 255, 255, 0.2),
+    0 0 20px rgba(0, 255, 255, 0.4);
+  border-color: var(--color-magenta);
+}
+
+.retro-input::placeholder {
+  color: rgba(0, 255, 255, 0.5);
+}
+
+/* ============================================================================
+   Grid & Layout
+   ============================================================================ */
+
+.grid-background {
+  background-image: 
+    linear-gradient(0deg, transparent 24%, var(--color-grid) 25%, var(--color-grid) 26%, transparent 27%, transparent 74%, var(--color-grid) 75%, var(--color-grid) 76%, transparent 77%, transparent),
+    linear-gradient(90deg, transparent 24%, var(--color-grid) 25%, var(--color-grid) 26%, transparent 27%, transparent 74%, var(--color-grid) 75%, var(--color-grid) 76%, transparent 77%, transparent);
+  background-size: 50px 50px;
+  background-position: 0 0, 25px 25px;
+}
+
+/* ============================================================================
+   Digital Noise & Artifacts
+   ============================================================================ */
+
+.digital-noise {
+  position: relative;
+}
+
+.digital-noise::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.05"/></svg>');
+  background-size: 100px 100px;
+  pointer-events: none;
+  animation: noise-shift 0.1s infinite;
+}
+
+@keyframes noise-shift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 10px 10px;
+  }
+}
+
+/* ============================================================================
+   Glitch Effect
+   ============================================================================ */
+
+@keyframes glitch {
+  0% {
+    clip-path: inset(40% 0 61% 0);
+    transform: translate(-2px, -2px);
+  }
+  20% {
+    clip-path: inset(92% 0 1% 0);
+    transform: translate(2px, 2px);
+  }
+  40% {
+    clip-path: inset(43% 0 1% 0);
+    transform: translate(-2px, 2px);
+  }
+  60% {
+    clip-path: inset(25% 0 58% 0);
+    transform: translate(2px, -2px);
+  }
+  80% {
+    clip-path: inset(54% 0 7% 0);
+    transform: translate(-2px, -2px);
+  }
+  100% {
+    clip-path: inset(58% 0 43% 0);
+    transform: translate(2px, 2px);
+  }
+}
+
+.glitch {
+  animation: glitch 0.3s infinite;
+}
+
+/* ============================================================================
+   Status Indicators
+   ============================================================================ */
+
+.status-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.status-active {
+  background-color: var(--color-cyan);
+  color: var(--color-cyan);
+  animation: pulse-cyan 1s infinite;
+}
+
+.status-inactive {
+  background-color: var(--color-dark-gray);
+  color: var(--color-dark-gray);
+}
+
+.status-error {
+  background-color: var(--color-error-red);
+  color: var(--color-error-red);
+  animation: pulse-error 0.5s infinite;
+}
+
+@keyframes pulse-cyan {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--color-cyan);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--color-cyan);
+  }
+}
+
+@keyframes pulse-error {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--color-error-red);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--color-error-red);
+  }
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  :root {
+    --glitch-offset: 1px;
+  }
+  
+  h1, h2, h3 {
+    font-size: 1.2rem;
+  }
+  
+  .retro-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* ============================================================================
+   Print Styles
+   ============================================================================ */
+
+@media print {
+  body::before {
+    display: none;
+  }
+  
+  .retro-panel {
+    border-color: var(--color-black);
+    box-shadow: none;
+  }
+}
